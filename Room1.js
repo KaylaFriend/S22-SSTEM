@@ -1,25 +1,43 @@
-  var Room1 = {
-    preload: function() {
-        //load assets here
-        this.preload.image('tileset', 'Dungeon_Tileset.png');
-    },
+//change "base" to name of file/class desired. DONT FORGET TO COPY INSTEAD OF EDITING base.js!!
 
-    create: function() {
-        //create objects from the assets here
-        this.add.image(10, 10, 'tileset');
-    },
+class Room1 extends Level {
+    constructor() {
+        //change base to room name/the scene name used in main.js
+        super('base');
+    }
 
-    update: function() {
-        //This constantly runs
-    },
+    preload() {
+        //loads assets
+        super.loadAssets();
+    }
 
-    changeStage: function() {
-        game.state.start("Room2"); //Swap to Level 2
-        console.log("u win!");
-    },
-};
+    create() {
+        gameState.active = true;
+        
+        //creates player, adds physics, and creates animations for player.
+        //x = character's starting x position, y = character's starting y position
+        super.createPlayer(window.innerWidth/2, window.innerHeight/2);
+        
+        //creates key and door, and appropriate door animation.
+        //super.createKeyDoor(key x, key y, door x, door y);
 
-var game = new Phaser.Game(800, 400);
-game.state.add("Room1", Room1);
-game.state.add("Room2", Room2);
-game.state.start("Room1");
+        //CREATE YOUR "gameState.floor" here!
+
+        //creates and sets colliders for player, door, and key
+        //NOTE: REQUIRES YOUR FLOOR ASSET TO BE CREATED AND CALLED "gameState.floor". WILL NOT WORK OTHERWISE.
+        //super.setColliders();
+        
+        //finish "creating" the rest of the room - recommend a "createRoom" method to keep code clean
+    }
+
+    update() {
+        if (gameState.active) {
+            //handles logic for player movement
+            // super.playerMove();
+           
+            //handles transition from this room to the next
+            //change "name" to super/scene name of next room (until order/rotation is established)
+            super.sceneChange('Room1');
+        }
+    }
+}

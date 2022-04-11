@@ -1,8 +1,4 @@
-/**
- * Author: Thomas SAULAY
- */
-
-import Phaser from "phaser";
+import Phaser from "./node_modules/phaser";
 
 import SceneGameOver from "./js/SceneGameOver";
 import SceneMainMenu from "./js/SceneMainMenu";
@@ -14,7 +10,8 @@ const config = {
   height: 600,
   backgroundColor: "#222222",
   parent: "game-container",
-  scene: [SceneMainMenu, SceneMain, SceneGameOver]
+  //scene: [SceneMainMenu, SceneMain, SceneGameOver]
+  scene: [SceneMain]
 };
 
 const game = new Phaser.Game(config);
