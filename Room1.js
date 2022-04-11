@@ -1,42 +1,31 @@
-//change "base" to name of file/class desired. DONT FORGET TO COPY INSTEAD OF EDITING base.js!!
+//change "Room1" to name of file/class desired. DONT FORGET TO COPY INSTEAD OF EDITING Room1.js!!
 
 class Room1 extends Level {
     constructor() {
-        //change base to room name/the scene name used in main.js
-        super('base');
+        //change Room1 to room name/the scene name used in main.js
+        super('Room1');
     }
 
     preload() {
-        //loads assets
+        //loads main assets and background
         super.loadAssets();
     }
 
     create() {
         gameState.active = true;
         
-        //creates player, adds physics, and creates animations for player.
-        //x = character's starting x position, y = character's starting y position
-        super.createPlayer(window.innerWidth/2, window.innerHeight/2);
-        
         //creates key and door, and appropriate door animation.
         //super.createKeyDoor(key x, key y, door x, door y);
 
-        //CREATE YOUR "gameState.floor" here!
-
-        //creates and sets colliders for player, door, and key
-        //NOTE: REQUIRES YOUR FLOOR ASSET TO BE CREATED AND CALLED "gameState.floor". WILL NOT WORK OTHERWISE.
-        //super.setColliders();
-        
-        //finish "creating" the rest of the room - recommend a "createRoom" method to keep code clean
+        //CREATE YOUR GAME OBJECTS HERE
     }
 
     update() {
         if (gameState.active) {
-            //handles logic for player movement
-            // super.playerMove();
-           
+            //HANDLES MOVEMENT HERE
+
             //handles transition from this room to the next
-            //change "name" to super/scene name of next room (until order/rotation is established)
+            //change "Room1" to super/scene name of next room (until order/rotation is established)
             super.sceneChange('Room1');
         }
     }

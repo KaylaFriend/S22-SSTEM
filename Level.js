@@ -1,19 +1,65 @@
-class Level extends Phaser.Scene {
+class Level2 extends Phaser.Scene {
     constructor(key) {
         super(key);
         this.levelKey = key;
-        this.nextLevel = {
-            'Room1' : 'Room1'
-        }
+        /*this.nextLevel = {
+            'MainRoom1' : 'MainRoom_Tripp',
+            'MainRoom_Tripp' : 'MainRoom_Kayla',
+            'MainRoom_Kayla' : 'MainRoom',
+            'MainRoom' : 'room1',
+            '' : ''
+            '' : ''
+            'room1' : 'MainRoom1'
+          }*/
     }
 
     loadAssets() {
+        this.load.spritesheet('player', './Free/Main Characters/Mask Dude/Idle (32x32).png', {frameWidth: 32, frameHeight: 32});
         this.load.image('background', './Free/Background/Green.png');
+    }
+    
+    animateBlocks(){
+        this.anims.create({
+             key: 'redClear',
+             frames: this.anims.generateFrameNumbers('blocks', {start: 1, end: 0}),
+             frameRate: 5, repeat: 0
+        });
+        this.anims.create({
+             key: 'redSolid',
+             frames: this.anims.generateFrameNumbers('blocks', {start: 0, end: 1}),
+             frameRate: 5, repeat: 0
+        });
+
+        this.anims.create({
+             key: 'blueClear',
+             frames: this.anims.generateFrameNumbers('blocks', {start: 3, end: 2}),
+             frameRate: 5, repeat: 0
+        });
+        this.anims.create({
+             key: 'blueSolid',
+             frames: this.anims.generateFrameNumbers('blocks', {start: 2, end: 3}),
+             frameRate: 5, repeat: 0
+        });
+    }
+
+    animateLevers(){
+        this.anims.create({
+             key: 'switchToRed',
+             frames: this.anims.generateFrameNumbers('blue_red', {start: 0, end: 3}),
+             frameRate: 10, repeat: 0
+        });
+        this.anims.create({
+             key: 'switchToBlue',
+             frames: this.anims.generateFrameNumbers('blue_red', {start: 3, end: 0}),
+             frameRate: 10, repeat: 0
+        });
     }
 
     createPlayer(x, y) {
-        gameState.player = this.physics.add.sprite(x, y, 'player');
+        gameState.player = this.physics.add.sprite(x,y, 'player');
+        //gameState.player.body.setSize();
         gameState.cursors = this.input.keyboard.createCursorKeys();
+        //Idle anims
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('player', {start: 0, end: 11}),
@@ -34,92 +80,38 @@ class Level extends Phaser.Scene {
         });
         this.anims.create({
             key: 'fall',
-            frames: this.anims.generateFrameNumbers('playerFall', {start: 0, end: 0}),
+            frames: this.anims.generateFrameNumbers('playerFall', {start: 0, end:0}),
             frameRate: 25,
             repeat: -1
         });
         gameState.player.isTouchingEnemy = false;
     }
-
+    
     createKeyDoor(keyX, keyY, doorX, doorY) {
         gameState.key = this.physics.add.image(keyX, keyY, 'key').setScale(.5).setImmovable(true);
         gameState.key.body.setAllowGravity(false);
-        gameState.isKeyVisible = true;
-        
-        gameState.door = this.physics.add.sprite(doorX, doorY, 'door').setScale(1.5).setDepth(-25).refreshBody();
-        gameState.doorOpen = false;
+        gameState.door = this.physics.add.sprite(doorX, doorY, 'door').setScale(1.5).setImmovable(true);
+        gameState.door.body.setAllowGravity(false);
+        gameState.doorOpen = false; 
         this.anims.create({
             key: 'open',
             frames: this.anims.generateFrameNumbers('door', {start: 0, end: 4}),
             frameRate: 5,
-            repeat: 0 
+            repeat: 0
         });
     }
 
-    createDino() {
-        gameState.dino = this.physics.add.sprite(100, window.innerHeight-64, 'dino');
-        gameState.dino.setCollideWorldBounds(true);
-        this.physics.add.collider(gameState.dino, gameState.platforms);
-        this.physics.add.collider(gameState.dino, gameState.floor);
-        //first number is width, second is height of body, true to center on sprite
-        gameState.player.body.setSize(10, 35, true);
-        gameState.player.body.debugShowBudy = true;
-        gameState.dino.body.setSize(7, 10, true);
-        gameState.dino.body.debugShowBody = true;
-        this.physics.add.collider(gameState.dino, gameState.player, function() {
-            gameState.player.isTouchingEnemy = true;
-        });
-
-        this.anims.create({
-            key: 'walk',
-            frames: this.anims.generateFrameNumbers('dino', {start: 4, end: 8}),
-            frameRate: 5,
-            repeat: -1
-        });
-        gameState.dino.setVelocityX(50);
-        gameState.dino.anims.play('walk', true);
-    }
-
-    createTrap(platforms) {
-        gameState.trap = this.physics.add.sprite(300, window.innerHeight - 64, 'firetrap');
-        gameState.trap.body.allowGravity = false;
-        this.anims.create({
-            key: 'fire',
-            frames: this.anims.generateFrameNumbers('firetrap', {start: 1, end: 14}),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        gameState.trap.anims.play('fire', true);
-    }
-   
-    /*
-     * Sets general player and room colliders. Dino/Enemy colliders handled in createDino for now.
-     */ 
-    setColliders() {
-        gameState.player.setCollideWorldBounds(true);
-        this.physics.add.collider(gameState.player, gameState.floor);
-        this.physics.add.collider(gameState.door, gameState.floor);
-        if (gameState.isKeyVisible) {
-            this.physics.add.collider(gameState.player, gameState.key, () => {
-                gameState.key.destroy();
-                gameState.door.anims.play('open', true);
-                gameState.doorOpen = true;
-            });
-        }
-    }
-    
     playerMove() {
-        if (gameState.player.body.touching.down) {
+        if (gameState.player.body.touching.down){
             if (gameState.cursors.left.isDown) {
                 gameState.player.setVelocityX(-gameState.speed);
-                if (gameState.player.body.touching.down) {
+                if (gameState.player.body.touching.down){
                     gameState.player.anims.play('run', true);
                 }
                 gameState.player.flipX = true;
             } else if (gameState.cursors.right.isDown) {
                 gameState.player.setVelocityX(gameState.speed);
-                if (gameState.player.body.touching.down) {
+                if (gameState.player.body.touching.down){
                     gameState.player.anims.play('run', true);
                 }
                 gameState.player.flipX = false;
@@ -142,7 +134,8 @@ class Level extends Phaser.Scene {
             } else {
                 gameState.player.setVelocityX(0);
             }
-            if (gameState.player.body.velocity.y >= 0) {
+            //console.log(gameState.player.body.velocity.y);
+            if (gameState.player.body.velocity.y >= 0){
                 gameState.player.anims.play('jump', true);
             }
             else {
@@ -151,90 +144,83 @@ class Level extends Phaser.Scene {
         }
     }
 
-    createBaseRoom() {
+    createBaseRoom() {   
         gameState.floor = this.physics.add.staticGroup();
-
-        //x, y, width, height, key
-        var bg = this.add.tileSprite(window.innerWidth / 2, window.innerHeight / 2, window.innerWidth, window.innerHeight, 'background');
-        bg.setDepth(-20);
+        //x,y,width,height,key
+        var bg = this.add.tileSprite(window.innerWidth / 2,window.innerHeight / 2,window.innerWidth, window.innerHeight, 'background');
         var floorBlock = this.add.tileSprite(window.innerWidth / 2, window.innerHeight, window.innerWidth, 32*2, 'rock_terrain');
         gameState.floor.add(floorBlock, true);
+        this.createHelpButton();
+        this.displayLives();
+        this.animateBlocks();
+        this.animateLevers();
     }
 
-    dinoUpdate() {
-        if (gameState.dino.body.blocked.right) {
-            gameState.dino.setVelocityX(-50);
-            gameState.dino.flipX = true;
-        } else if (gameState.dino.body.blocked.left) {
-            gameState.dino.setVelocityX(50);
-            gameState.dino.flipX = false;
-        } else if (gameState.dino.body.touching.left) {
-            gameState.dino.setVelocityX(50);
-            gameState.dino.flipX = false;
-        } else if (gameState.dino.body.touching.right) {
-            gameState.dino.setVelocityX(-50);
-            gameState.dino.flipX = true;
-        } else {
-            gameState.dino.anims.play('walk', true);
-        }
-
-        //until lives system is more implemented
-        if (gameState.player.isTouchingEnemy) {
-            this.scene.restart();
-        }
-    }
-
-    trapUpdate() {
-        this.physics.add.overlap(gameState.player, gameState.trap, function () {
-            gameState.player.isTouchingEnemy = true;
-        }, function () {
-            return gameState.trap.anims.currentFrame.textureFrame == 9;
+    setColliders(){
+        gameState.player.setCollideWorldBounds(true);
+        this.physics.add.collider(gameState.player, gameState.floor);
+        this.physics.add.collider(gameState.door, gameState.floor);
+        this.physics.add.collider(gameState.player, gameState.key, function () {
+            gameState.key.destroy();
+            gameState.door.anims.play('open', true);
+            gameState.doorOpen = true;
         });
     }
-
-    sceneChange(name) {
+    
+    sceneChange(name){
         this.physics.add.overlap(gameState.player, gameState.door, function() {
             if (gameState.doorOpen) {
-                this.cameras.main.fade(800, 0, 0, 0, false, function(camera, progress) {
+                this.cameras.main.fade(800,0,0,0,false, function(camera, progress) {
                     this.scene.stop(this.levelKey);
+                    //this.scene.start(this.nextLevel[this.levelKey]);
                     this.scene.start(name);
                 });
             }
         }, null, this);
     }
 
-    autoSceneChange() {
-        this.physics.add.overlap(gameState.player, gameState.door, function() {
-            if (gameState.doorOpen) {
-                this.cameras.main.fade(800, 0, 0, 0, false, function(camera, progress) {
-                    this.scene.stop(this.levelKey);
-                    this.scene.start(this.nextLevel[this.levelKey]);
-                });
-            }
-        }, null, this);
+    createAngryPig(xPos, yPos, asset){     
     }
 
-    /*
-    * Lives System
-    */
-    
+    displayLives(){
+        this.registry.set('lives', gameState.lives);
+        gameState.livesText = this.add.text(window.innerWidth/2 - 10, 10, 'Lives: ' + gameState.lives, {fontSize: '20px', fill:'black'});
+    }
+
+    updateLives() {
+        if (gameState.player.isTouchingEnemy){
+            this.scene.pause('default');
+            gameState.lives--;
+            this.registry.set('lives', gameState.lives);
+            this.scene.restart('default');
+            this.scene.resume('default');
+            if (gameState.lives === 0){
+                gameState.lives = 3;
+                //Possible add an end of game screen    
+            }
+        }
+    }
+
+
     //Put in Create()
-    displayLives() {
-	this.registry.set('lives', gameState.lives);
-	gameState.livesText = this.add.text(375, 10, 'Lives: '+gameState.lives, {fontSize: '20px', fill:'black'});
+    createHelpButton() {
+	    gameState.helpButton = this.add.image(30,30,'help').setInteractive();
+	    gameState.move = this.add.text(75,10, 'Move: Arrow Keys', {fill:'black'}).visible = false;
+	    gameState.jump = this.add.text(75,25, 'Jump: Space Bar', {fill:'black'}).visible = false;
+	    gameState.climb = this.add.text(75, 40, 'Climb: Up Arrow', {fill:'black'}).visible = false;
     }
 
     //Put in Update()
-    updateLives() {
-	  if (gameState.player.isTouchingEnemy) {
-	    this.scene.pause("default");
-	    gameState.lives--;
-	    this.registry.set('lives', gameState.lives);
-	    this.scene.restart("default");
-	    this.scene.resume("default");
-	    if (gameState.lives === 0) {
-		gameState.lives = 3;
-	    }
-	}
-}
+    makeButtonVisible() {
+	    gameState.helpButton.on('pointerover', () => {
+            gameState.move.visible = true;
+            gameState.jump.visible = true;
+            gameState.climb.visible = true;
+        });
+        gameState.helpButton.on('pointerout', () => {
+            gameState.move.visible = false;
+            gameState.jump.visible = false;
+            gameState.climb.visible = false;
+        });
+    }
 }
