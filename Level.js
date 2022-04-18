@@ -18,7 +18,7 @@ class Level extends Phaser.Scene {
 
     loadAssets() {
         //this.load.spritesheet('player', './Free/Main Characters/Mask Dude/Idle (32x32).png', {frameWidth: 32, frameHeight: 32});
-        this.load.image('background', './assets/room.png');
+        this.load.image('background', './assets/updated_room.png');
         this.load.image('door1', './assets/door_above_middle.png');
         //this.load.image('background', './PhaserAssets/assets/floor.jpg');
     }
@@ -161,7 +161,10 @@ class Level extends Phaser.Scene {
     createBaseRoom() {   
         gameState.floor = this.physics.add.staticGroup();
         //x,y,width,height,key
-        var bg = this.add.tileSprite(game.config.width / 2,game.config.height / 2,game.config.width, game.config.height, 'background');        //var floorBlock = this.add.tileSprite(window.innerWidth / 2, window.innerHeight, window.innerWidth, 32*2, 'rock_terrain');
+        var bg = this.add.image(450, 450, 'background');        //var floorBlock = this.add.tileSprite(window.innerWidth / 2, window.innerHeight, window.innerWidth, 32*2, 'rock_terrain');
+        var door1 = this.add.image(720, 450, 'door1');
+        bg.setScale(2);
+        door1.setScale(4.8);
         //gameState.floor.add(floorBlock, true);
         //this.createHelpButton();
         //this.displayLives();
