@@ -13,6 +13,7 @@ class Room1 extends Level {
 
     create() {
         gameState.active = true;
+        //super.createAssets();
         super.createBaseRoom();
         //creates key and door, and appropriate door animation.
         //super.createKeyDoor(key x, key y, door x, door y);

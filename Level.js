@@ -19,13 +19,17 @@ class Level extends Phaser.Scene {
     loadAssets() {
         //this.load.spritesheet('player', './Free/Main Characters/Mask Dude/Idle (32x32).png', {frameWidth: 32, frameHeight: 32});
         this.load.image('background', './assets/room.png');
+        this.load.image('door1', './assets/door_above_middle.png');
         //this.load.image('background', './PhaserAssets/assets/floor.jpg');
     }
    
     createAssets() {
         //this.load.spritesheet('player', './Free/Main Characters/Mask Dude/Idle (32x32).png', {frameWidth: 32, frameHeight: 32});
         //this.scene.start("MazeRoom");
-        this.add.image(600, 600, 'background'); 
+        this.add.image(800, 800, 'background');
+        this.add.image(50, 50, 'door1');
+
+        //background.setScale(2); 
     }
     
     animateBlocks(){
@@ -157,7 +161,7 @@ class Level extends Phaser.Scene {
     createBaseRoom() {   
         gameState.floor = this.physics.add.staticGroup();
         //x,y,width,height,key
-        var bg = this.add.tileSprite(window.innerWidth / 2,window.innerHeight / 2,window.innerWidth, window.innerHeight, 'background');        //var floorBlock = this.add.tileSprite(window.innerWidth / 2, window.innerHeight, window.innerWidth, 32*2, 'rock_terrain');
+        var bg = this.add.tileSprite(game.config.width / 2,game.config.height / 2,game.config.width, game.config.height, 'background');        //var floorBlock = this.add.tileSprite(window.innerWidth / 2, window.innerHeight, window.innerWidth, 32*2, 'rock_terrain');
         //gameState.floor.add(floorBlock, true);
         //this.createHelpButton();
         //this.displayLives();

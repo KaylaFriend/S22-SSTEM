@@ -5,8 +5,8 @@ const gameState = {
 
 const config = {
     type: Phaser.AUTO,
-    width: window.innerWidth /** window.devicePixelRatio*/,
-    height: window.innerHeight /** window.devicePixelRatio*/, 
+    width: 900 /** window.devicePixelRatio*/,
+    height: 900 /** window.devicePixelRatio*/, 
     fps: {target: 60},
     backgroundColor: "f0f2fa",
     physics: {
