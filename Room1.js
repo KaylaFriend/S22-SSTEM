@@ -1,25 +1,32 @@
-  var Room1 = {
-    preload: function() {
-        //load assets here
-        this.preload.image('tileset', 'Dungeon_Tileset.png');
-    },
+//change "Room1" to name of file/class desired. DONT FORGET TO COPY INSTEAD OF EDITING Room1.js!!
 
-    create: function() {
-        //create objects from the assets here
-        this.add.image(10, 10, 'tileset');
-    },
+class Room1 extends Level {
+    constructor() {
+        //change Room1 to room name/the scene name used in main.js
+        super('Room1');
+    }
 
-    update: function() {
-        //This constantly runs
-    },
+    preload() {
+        //loads main assets and background
+        super.loadAssets();
+    }
 
-    changeStage: function() {
-        game.state.start("Room2"); //Swap to Level 2
-        console.log("u win!");
-    },
-};
+    create() {
+        gameState.active = true;
+        super.createBaseRoom();
+        //creates key and door, and appropriate door animation.
+        //super.createKeyDoor(key x, key y, door x, door y);
 
-var game = new Phaser.Game(800, 400);
-game.state.add("Room1", Room1);
-game.state.add("Room2", Room2);
-game.state.start("Room1");
+        //CREATE YOUR GAME OBJECTS HERE
+    }
+
+    update() {
+        if (gameState.active) {
+            //HANDLES MOVEMENT HERE
+
+            //handles transition from this room to the next
+            //change "Room1" to super/scene name of next room (until order/rotation is established)
+            //super.sceneChange('Room1');
+        }
+    }
+}

@@ -17,8 +17,8 @@ const config = {
             //debug: true
         }
     },
-
     scene: [Room1]
 };
-
+gameState.lives = 3;
 const game = new Phaser.Game(config);
+

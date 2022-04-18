@@ -1,0 +1,22 @@
+LADDER CODE:
+in preload() : 
+this.load.image(ladderName, ladderPath);
+
+in create() : 
+gameState.ladderGroup = this.physics.add.group();
+gameState.ladderGroup.create(x, y, ladderName);
+this.physics.add.collider(gameState.ladderGroup, gameState.floor);
+
+in update() : 
+*may have to paste all player code into file and insert following as an
+ "else-if" between cursors.right and cursors.space*
+if (gameState.cursors.up.isDown) {
+    let a = gameState.player.getBounds();
+    gameState.ladderGroup.children.iterate(function(child) {
+        let b = child.getBounds();
+        if (Phaser.Geom.Intersects.RectangleToRectangle(a, b)) {
+            gameState.player.setVelocityY(-100);
+            gameState.player.anims.play('climb', true);
+        }
+    });
+}
