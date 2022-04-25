@@ -1,4 +1,6 @@
 class Level extends Phaser.Scene {
+
+
     constructor(key) {
         super("Room1");
         
@@ -162,9 +164,9 @@ class Level extends Phaser.Scene {
         gameState.floor = this.physics.add.staticGroup();
         //x,y,width,height,key
         var bg = this.add.image(450, 450, 'background');        //var floorBlock = this.add.tileSprite(window.innerWidth / 2, window.innerHeight, window.innerWidth, 32*2, 'rock_terrain');
-        var door1 = this.add.image(720, 450, 'door1');
+        gameState.door1 = this.add.image(720, 450, 'door1');
         bg.setScale(2);
-        door1.setScale(4.8);
+        gameState.door1.setScale(4.8);
         //gameState.floor.add(floorBlock, true);
         //this.createHelpButton();
         //this.displayLives();
@@ -219,24 +221,16 @@ class Level extends Phaser.Scene {
 
 
     //Put in Create()
-    createHelpButton() {
-	    gameState.helpButton = this.add.image(30,30,'help').setInteractive();
-	    gameState.move = this.add.text(75,10, 'Move: Arrow Keys', {fill:'black'}).visible = false;
-	    gameState.jump = this.add.text(75,25, 'Jump: Space Bar', {fill:'black'}).visible = false;
-	    gameState.climb = this.add.text(75, 40, 'Climb: Up Arrow', {fill:'black'}).visible = false;
+    createDoor() {
+        
+	    // var door2 = this.add.image(130,130,'door1').setInteractive();
+        // var door1 = this.add.image(720, 450, 'door1');
     }
 
     //Put in Update()
-    makeButtonVisible() {
-	    gameState.helpButton.on('pointerover', () => {
-            gameState.move.visible = true;
-            gameState.jump.visible = true;
-            gameState.climb.visible = true;
-        });
-        gameState.helpButton.on('pointerout', () => {
-            gameState.move.visible = false;
-            gameState.jump.visible = false;
-            gameState.climb.visible = false;
+    makeDoorVisible() {
+        gameState.door1.setInteractive().on('pointerdown', () => {
+            //this.add.text(170, 170, "TEST!!");
         });
     }
 }

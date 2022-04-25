@@ -16,7 +16,7 @@ class MazeRoom extends Level {
         gameState.active = true;
         
         super.createAssets();
-
+        super.createDoor();
         //creates key and door, and appropriate door animation.
         //super.createKeyDoor(key x, key y, door x, door y);
 
@@ -26,7 +26,7 @@ class MazeRoom extends Level {
     update() {
         if (gameState.active) {
             //HANDLES MOVEMENT HERE
-
+            this.makeDoorVisible();
             //handles transition from this room to the next
             //change "MazeRoom" to super/scene name of next room (until order/rotation is established)
             super.sceneChange('MazeRoom');
