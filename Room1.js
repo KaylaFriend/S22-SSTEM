@@ -44,10 +44,13 @@ class Room1 extends Level {
                     console.log(gameState.r);
                     gameState.count += 1;
                     gameState.q = gameState.list[gameState.r];
+                    console.log(gameState.q);
                 }
 
                 let ops = gameState.questions.get(gameState.q);
-                //console.log(typeof ops);
+                let ans = gameState.answers.get(gameState.q);
+                //console.log(ans);
+                //console.log(typeof ans);
                 this.add.text(250, 250, gameState.q);
                 let op1 = this.add.text(300, 300, ops[0]);
                 let op2 = this.add.text(300, 325, ops[1]);
@@ -55,17 +58,40 @@ class Room1 extends Level {
                 let op4 = this.add.text(300, 375, ops[3]);
 
                 op1.setInteractive().on('pointerdown', () => {
-                    this.add.text(400, 400, "CORRECT");
-                    this.scene.restart();
+                    if (ops[0] === ans) {
+                        this.add.text(400, 400, "CORRECT");
+                        this.scene.restart();
+                    }
+                    else {
+                        this.add.text(400, 400, "WRONG"); 
+                    }
                 });
                 op2.setInteractive().on('pointerdown', () => {
-                    this.add.text(400, 400, "WRONG");
+                    if (ops[1] === ans) {
+                        this.add.text(400, 400, "CORRECT");
+                        this.scene.restart();
+                    }
+                    else {
+                        this.add.text(400, 400, "WRONG"); 
+                    }
                 });
                 op3.setInteractive().on('pointerdown', () => {
-                    this.add.text(400, 400, "WRONG");
+                    if (ops[2] === ans) {
+                        this.add.text(400, 400, "CORRECT");
+                        this.scene.restart();
+                    }
+                    else {
+                        this.add.text(400, 400, "WRONG"); 
+                    }
                 });
                 op4.setInteractive().on('pointerdown', () => {
-                    this.add.text(400, 400, "WRONG");
+                    if (ops[3] === ans) {
+                        this.add.text(400, 400, "CORRECT");
+                        this.scene.restart();
+                    }
+                    else {
+                        this.add.text(400, 400, "WRONG"); 
+                    }
                 });
             });
             //HANDLES MOVEMENT HERE
